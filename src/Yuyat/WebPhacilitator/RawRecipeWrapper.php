@@ -45,7 +45,7 @@ class Yuyat_WebPhacilitator_RawRecipeWrapper
             if (count($args) === 0) {
                 return call_user_func(array($this->recipe, $method));
             } else {
-                return call_user_func_array(array($this->recipe, $method, $args));
+                return call_user_func_array(array($this->recipe, $method), $args);
             }
         }
 

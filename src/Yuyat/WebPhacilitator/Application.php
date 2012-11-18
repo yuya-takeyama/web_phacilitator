@@ -47,6 +47,7 @@ class Yuyat_WebPhacilitator_Application extends Sumile_Application
         $this->post('/projects/:project_alias/recipes/:recipe_in_project_id/confirm', array($this, 'POST_projectsRecipesConfirm'));
         $this->get('/projects/:project_alias/recipes/:recipe_in_project_id/executions', array($this, 'GET_projectsRecipesExecutions'));
         $this->get('/projects/:project_alias/recipes/:recipe_in_project_id', array($this, 'GET_projectsRecipesIndex'));
+        $this->post('/projects/:project_alias/recipes/:recipe_in_project_id', array($this, 'POST_projectsRecipesIndex'));
         $this->get('/projects/:project_alias', array($this, 'GET_projectsIndex'));
         $this->get('/users/:screen_name', array($this, 'GET_usersIndex'));
         $this->get('/', array($this, 'GET_index'));
@@ -82,6 +83,38 @@ class Yuyat_WebPhacilitator_Application extends Sumile_Application
             'recipe'     => $recipe,
             'raw_recipe' => $rawRecipe,
         ));
+    }
+
+    public function POST_projectsRecipesIndex($projectAlias, $recipeInProjectId)
+    {
+        list($project, $recipe, $rawRecipe) = $this->loadProjectAndRecipe(
+            $projectAlias,
+            $recipeInProjectId
+        );
+
+        $input  = new Yuyat_Phacilitator_Input(1, array('test.php'), null);
+        $output = new Yuyat_WebPhacilitator_BufferOutput;
+
+        $executionMapper = $this['dm']['RecipeExecution'];
+
+        $executionId = $executionMapper->insert(array(
+            'project_id' => $project->id,
+            'recipe_id'  => $recipe->id,
+            'user_id'    => $this['session']->getUser()->id,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ));
+
+        $rawRecipe->execute($input, $output);
+
+        $execution = $executionMapper->get($executionId);
+
+        $execution->output       = $output->getBuffer();
+        $execution->completed_at = date('Y-m-d H:i:s');
+
+        $executionMapper->update($execution);
+
+        $this->redirect("/projects/{$project->alias}/recipes/{$recipe->in_project_id}/executions/{$execution->id}");
     }
 
     public function GET_projectsRecipesExecutions($projectAlias, $recipeInProjectId)
