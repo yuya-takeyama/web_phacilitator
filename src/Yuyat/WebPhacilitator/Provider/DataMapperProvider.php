@@ -18,12 +18,17 @@ class Yuyat_WebPhacilitator_Provider_DataMapperProvider
 {
     public function register(Sumile_Application $app)
     {
+        $app['dm']         = $app->share(array($this, 'provideDataMapperContainer'));
         $app['dm.adapter'] = $app->share(array($this, 'provideAdapter'));
-        $app['projects']   = $app->share(array($this, 'provideProjectMapper'));
     }
 
     public function boot(Sumile_Application $app)
     {
+    }
+
+    public function provideDataMapperContainer($c)
+    {
+        return new Yuyat_WebPhacilitator_DataMapperContainer($c['dm.adapter']);
     }
 
     public function provideAdapter($c)
@@ -34,10 +39,5 @@ class Yuyat_WebPhacilitator_Provider_DataMapperProvider
             $c['db.user'],
             $c['db.password']
         );
-    }
-
-    public function provideProjectMapper($c)
-    {
-        return new Yuyat_WebPhacilitator_DataMapper_ProjectMapper($c['dm.adapter']);
     }
 }

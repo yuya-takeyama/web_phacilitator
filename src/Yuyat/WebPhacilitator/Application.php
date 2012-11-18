@@ -38,6 +38,10 @@ class Yuyat_WebPhacilitator_Application extends Sumile_Application
         ));
         $this->register(new Yuyat_WebPhacilitator_Provider_DataMapperProvider);
         $this->register(new Yuyat_WebPhacilitator_Provider_TwigProvider);
+        $this->register(new Yuyat_WebPhacilitator_Provider_SessionProvider);
+
+        // Register middlewares
+        $this->add(new Slim_Middleware_SessionCookie);
 
         // Register routing
         $this->get('/projects/:project_alias', array($this, 'GET_projectsIndex'));
@@ -46,7 +50,7 @@ class Yuyat_WebPhacilitator_Application extends Sumile_Application
 
     public function GET_index()
     {
-        $projects = $this->dm('Project')->all();
+        $projects = $this['dm']['Project']->all();
 
         return $this->render('index.twig', array(
             'projects' => $projects,
@@ -55,7 +59,7 @@ class Yuyat_WebPhacilitator_Application extends Sumile_Application
 
     public function GET_projectsIndex($projectAlias)
     {
-        $project = $this->dm('Project')->first(array('alias' => $projectAlias));
+        $project = $this['dm']['Project']->first(array('alias' => $projectAlias));
 
         return $this->render('projects/index.twig', array(
             'project' => $project,
@@ -65,15 +69,5 @@ class Yuyat_WebPhacilitator_Application extends Sumile_Application
     public function render($file, $variables = array())
     {
         $this->response->write($this['twig']->render($file, $variables));
-    }
-
-    private function dm($name)
-    {
-        if (array_key_exists($name, $this->dataMappers) === false) {
-            $klass = "Yuyat_WebPhacilitator_DataMapper_{$name}Mapper";
-            $this->dataMappers[$name] = new $klass($this['dm.adapter']);
-        }
-
-        return $this->dataMappers[$name];
     }
 }
