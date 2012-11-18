@@ -37,6 +37,15 @@ class Yuyat_WebPhacilitator_Entity_Project
         );
     }
 
+    public function findRawRecipeByInProjectId($inProjectId)
+    {
+        foreach ($this->getRawRecipeIterator() as $recipe) {
+            if ($recipe->getFullName() === $inProjectId) {
+                return $recipe;
+            }
+        }
+    }
+
     public function findRecipeByInProjectId($id)
     {
         $recipe = $this->recipes->first(array('in_project_id' => $id));

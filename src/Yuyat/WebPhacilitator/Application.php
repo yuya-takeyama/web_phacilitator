@@ -89,9 +89,12 @@ class Yuyat_WebPhacilitator_Application extends Sumile_Application
             $this->halt('Recipe not found');
         }
 
+        $rawRecipe = $project->findRawRecipeByInProjectId($recipeInProjectId);
+
         return $this->render('projects/recipes/index.twig', array(
-            'project' => $project,
-            'recipe'  => $recipe,
+            'project'    => $project,
+            'recipe'     => $recipe,
+            'raw_recipe' => $rawRecipe,
         ));
     }
 
