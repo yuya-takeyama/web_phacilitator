@@ -98,7 +98,6 @@ class Yuyat_WebPhacilitator_Application extends Sumile_Application
         $executionMapper = $this['dm']['RecipeExecution'];
 
         $executionId = $executionMapper->insert(array(
-            'project_id' => $project->id,
             'recipe_id'  => $recipe->id,
             'user_id'    => $this['session']->getUser()->id,
             'created_at' => date('Y-m-d H:i:s'),
