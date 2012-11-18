@@ -15,7 +15,7 @@
  */
 class Yuyat_WebPhacilitator_DataMapper_UserMapper extends phpDataMapper_Base
 {
-    protected $_entityClass = 'Yuyat_Phacilitator_Entity_User';
+    protected $_entityClass = 'Yuyat_WebPhacilitator_Entity_User';
  
     protected $_datasource = 'phacilitator_users';
 
@@ -23,29 +23,43 @@ class Yuyat_WebPhacilitator_DataMapper_UserMapper extends phpDataMapper_Base
         'type'    => 'int',
         'primary' => true,
         'serial'  => true,
+        'null'    => false,
     );
 
     public $screen_name = array(
-        'type' => 'string',
+        'type'   => 'string',
+        'null'   => false,
+        'unique' => true,
+        'length' => 20,
     );
 
     public $facebook_access_token = array(
-        'type' => 'string',
+        'type'   => 'string',
+        'unique' => true,
+    );
+
+    public $is_root = array(
+        'type'    => 'bool',
+        'default' => 0,
+        'null'    => false,
     );
 
     public $created_at = array(
         'type'    => 'datetime',
         'default' => '0000-00-00 00:00:00',
+        'null'    => false,
     );
 
     public $updated_at = array(
         'type'    => 'datetime',
         'default' => '0000-00-00 00:00:00',
+        'null'    => false,
     );
 
     public $deleted_at = array(
         'type'    => 'datetime',
         'default' => '0000-00-00 00:00:00',
+        'null'    => false,
     );
  
     public $user_roles = array(

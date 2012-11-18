@@ -15,7 +15,7 @@
  */
 class Yuyat_WebPhacilitator_DataMapper_UserRoleMapper extends phpDataMapper_Base
 {
-    protected $_entityClass = 'Yuyat_Phacilitator_Entity_UserRole';
+    protected $_entityClass = 'Yuyat_WebPhacilitator_Entity_UserRole';
  
     protected $_datasource = 'phacilitator_user_roles';
 
@@ -23,29 +23,35 @@ class Yuyat_WebPhacilitator_DataMapper_UserRoleMapper extends phpDataMapper_Base
         'type'    => 'int',
         'primary' => true,
         'serial'  => true,
+        'null'    => false,
     );
 
     public $user_id = array(
         'type' => 'int',
+        'null' => false,
     );
 
     public $role_id = array(
         'type' => 'int',
+        'null' => false,
     );
 
     public $created_at = array(
         'type'    => 'datetime',
         'default' => '0000-00-00 00:00:00',
+        'null'    => false,
     );
 
     public $updated_at = array(
         'type'    => 'datetime',
         'default' => '0000-00-00 00:00:00',
+        'null'    => false,
     );
 
     public $deleted_at = array(
         'type'    => 'datetime',
         'default' => '0000-00-00 00:00:00',
+        'null'    => false,
     );
  
     public $user = array(
