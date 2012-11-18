@@ -25,6 +25,10 @@ $loader = new SplClassLoader('Twig', dirname(__FILE__) . '/vendor/fabpot/twig/li
 $loader->setNamespaceSeparator('_');
 $loader->register();
 
+$loader = new SplClassLoader('phpDataMapper', dirname(__FILE__) . '/vendor/vlucas');
+$loader->setNamespaceSeparator('_');
+$loader->register();
+
 set_include_path(
     realpath(dirname(__FILE__) . '/vendor/codeguy/Slim') .
     PATH_SEPARATOR .

@@ -15,7 +15,7 @@
  */
 class Yuyat_WebPhacilitator_DataMapper_ProjectMapper extends phpDataMapper_Base
 {
-    protected $_entityClass = 'Yuyat_Phacilitator_Entity_Project';
+    protected $_entityClass = 'Yuyat_WebPhacilitator_Entity_Project';
  
     protected $_datasource = 'phacilitator_projects';
 
@@ -23,29 +23,42 @@ class Yuyat_WebPhacilitator_DataMapper_ProjectMapper extends phpDataMapper_Base
         'type'    => 'int',
         'primary' => true,
         'serial'  => true,
+        'null'    => false,
+    );
+
+    public $alias = array(
+        'type'   => 'string',
+        'unique' => true,
+        'length' => 32,
+        'null'   => false,
     );
 
     public $name = array(
         'type' => 'string',
+        'null' => false,
     );
 
     public $root_directory = array(
         'type' => 'string',
+        'null' => false,
     );
 
     public $created_at = array(
         'type'    => 'datetime',
         'default' => '0000-00-00 00:00:00',
+        'null'    => false,
     );
 
     public $updated_at = array(
         'type'    => 'datetime',
         'default' => '0000-00-00 00:00:00',
+        'null'    => false,
     );
 
     public $deleted_at = array(
         'type'    => 'datetime',
         'default' => '0000-00-00 00:00:00',
+        'null'    => false,
     );
  
     public $project_users = array(
