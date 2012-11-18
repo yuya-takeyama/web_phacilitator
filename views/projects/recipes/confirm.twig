@@ -1,0 +1,39 @@
+{% extends 'layout/application.twig' %}
+{% block body %}
+<h1><a href="/projects/{{ project.alias}}">{{ project.name }}</a> :: <a href="/projects/{{ project.alias}}/recipes/{{ recipe.in_project_id }}">{{ recipe.name }}</a> :: Confirmation</h1>
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span2">
+      <ul class="nav nav-pills nav-stacked">
+        <li><a href="/projects/{{ project.alias }}/recipes/{{ recipe.in_project_id}}">Top</a></li>
+        <li><a href="/projects/{{ project.alias }}/recipes/{{ recipe.in_project_id}}/executions">History</a></li>
+      </ul>
+    </div>
+    <div class="span10">
+      <div class="alert">
+        <strong>Warning!</strong> Confirm what you're doing
+      </div>
+
+      <dl class="dl-horizontal">
+        <dt>Project</dt>
+        <dd>{{ project.name }}</dd>
+        <dt>Recipe</dt>
+        <dd>{{ recipe.name }}</dd>
+        <dt>Recipe Description</dt>
+        <dd>{{ raw_recipe.getDescription() }}</dd>
+        <dt>Logged in as</dt>
+        <dd>{{ session.getUser().screen_name }}</dd>
+      </dl>
+
+      <form action="/projects/{{ project.alias }}/recipes/{{ recipe.in_project_id }}" method="post">
+        <div>
+          <input type="submit" value="Execute" class="btn btn-danger btn-large">
+          <a href="/projects/{{ project.alias }}/recipes/{{ recipe.in_project_id }}" class="btn btn-large">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
