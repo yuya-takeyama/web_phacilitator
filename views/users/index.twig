@@ -1,0 +1,25 @@
+{% extends 'layout/application.twig' %}
+{% block body %}
+<h1>User :: {{ user.screen_name }}</h1>
+
+<h2>Projects</h2>
+
+<ul>
+{% for project in user.getProjects() %}
+  <li><a href="/projects/{{ project.alias }}">{{ project.name }}</a></li>
+{% else %}
+  <li><em>No projects</em></li>
+{% endfor %}
+</ul>
+
+<h2>Roles</h2>
+
+<ul>
+{% for role in user.getRoles() %}
+  <li>{{ role.name }}</li>
+{% else %}
+  <li><em>No roles</em></li>
+{% endfor %}
+</ul>
+
+{% endblock %}

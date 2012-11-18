@@ -60,4 +60,11 @@ class Yuyat_WebPhacilitator_DataMapper_UserRoleMapper extends phpDataMapper_Base
         'mapper'   => 'Yuyat_WebPhacilitator_DataMapper_UserMapper',
         'where'    => array('id' => 'entity.user_id')
     );
+
+    public $role = array(
+        'type'     => 'relation',
+        'relation' => 'HasOne',
+        'mapper'   => 'Yuyat_WebPhacilitator_DataMapper_RoleMapper',
+        'where'    => array('id' => 'entity.role_id')
+    );
 }

@@ -20,6 +20,8 @@ class Yuyat_WebPhacilitator_Session implements ArrayAccess
      */
     private $dataMapperContainer;
 
+    private $user;
+
     public function __construct($params = array())
     {
         if (isset($params['data_mapper_container'])) {
@@ -45,5 +47,26 @@ class Yuyat_WebPhacilitator_Session implements ArrayAccess
     public function offsetUnset($key)
     {
         unset($_SESSION[$key]);
+    }
+
+    public function getUser()
+    {
+        if (is_null($this->user)) {
+            if (isset($_SESSION['user_id'])) {
+                $id   = $_SESSION['user_id'];
+                $user = $this->dataMapperContainer['User']->get($id);
+
+                $this->user = $user ? $user : false;
+            } else {
+                $this->user = false;
+            }
+        }
+
+        return $this->user === false ? null : $this->user;
+    }
+
+    public function isLoggedIn()
+    {
+        return is_null($this->getUser()) === false;
     }
 }

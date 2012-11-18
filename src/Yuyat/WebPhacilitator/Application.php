@@ -45,6 +45,7 @@ class Yuyat_WebPhacilitator_Application extends Sumile_Application
 
         // Register routing
         $this->get('/projects/:project_alias', array($this, 'GET_projectsIndex'));
+        $this->get('/users/:screen_name', array($this, 'GET_usersIndex'));
         $this->get('/', array($this, 'GET_index'));
     }
 
@@ -66,8 +67,33 @@ class Yuyat_WebPhacilitator_Application extends Sumile_Application
         ));
     }
 
+    public function GET_usersIndex($screenName)
+    {
+        if ($screenName === 'me') {
+            $user = $this['session']->getUser();
+
+            if (!$user) {
+                $this->halt("You are'nt logged in");
+            }
+        } else {
+            $user = $this['dm']['User']->first(array('screen_name' => $screenName));
+
+            if (!$user) {
+                $this->halt('The user is not found');
+            }
+        }
+
+        return $this->render('users/index.twig', array(
+            'user' => $user,
+        ));
+    }
+
     public function render($file, $variables = array())
     {
+        $variables = array_merge(array(
+            'session' => $this['session'],
+        ), $variables);
+
         $this->response->write($this['twig']->render($file, $variables));
     }
 }

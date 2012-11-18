@@ -61,11 +61,18 @@ class Yuyat_WebPhacilitator_DataMapper_UserMapper extends phpDataMapper_Base
         'default' => '0000-00-00 00:00:00',
         'null'    => false,
     );
- 
+
+    public $project_users = array(
+        'type'     => 'relation',
+        'relation' => 'HasMany',
+        'mapper'   => 'Yuyat_WebPhacilitator_DataMapper_ProjectUserMapper',
+        'where'    => array('user_id' => 'entity.id')
+    );
+
     public $user_roles = array(
         'type'     => 'relation',
         'relation' => 'HasMany',
-        'mapper'   => 'Yuyat_WebPhacilitator_DataMapper_RoleMapper',
-        'where'    => array('invoice_id' => 'entity.id')
+        'mapper'   => 'Yuyat_WebPhacilitator_DataMapper_UserRoleMapper',
+        'where'    => array('user_id' => 'entity.id')
     );
 }

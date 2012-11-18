@@ -38,7 +38,10 @@
         <a class="brand" href="#">WebPhacilitator</a>
         <div class="nav-collapse">
           <ul class="nav">
-            <li class="active"><a href="#">Home</a></li>
+            <li><a href="/">Home</a></li>
+            {% if session.isLoggedIn() %}
+            <li><a href="/users/me">Me</a></li>
+            {% endif %}
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
