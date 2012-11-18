@@ -36,19 +36,8 @@ class Yuyat_WebPhacilitator_DataMapper_RecipeExecutionMapper extends phpDataMapp
         'null'   => false,
     );
 
-    public $description = array(
+    public $output = array(
         'type' => 'text',
-    );
-
-    public $facebook_access_token = array(
-        'type'   => 'string',
-        'unique' => true,
-    );
-
-    public $is_root = array(
-        'type'    => 'bool',
-        'default' => 0,
-        'null'    => false,
     );
 
     public $created_at = array(

@@ -44,7 +44,7 @@ class Yuyat_WebPhacilitator_Application extends Sumile_Application
         $this->add(new Slim_Middleware_SessionCookie);
 
         // Register routing
-        $this->get('/projects/:project_alias/recipes/:recipe_in_project_id/history', array($this, 'GET_projectsRecipesHistory'));
+        $this->get('/projects/:project_alias/recipes/:recipe_in_project_id/executions', array($this, 'GET_projectsRecipesExecutions'));
         $this->get('/projects/:project_alias/recipes/:recipe_in_project_id', array($this, 'GET_projectsRecipesIndex'));
         $this->get('/projects/:project_alias', array($this, 'GET_projectsIndex'));
         $this->get('/users/:screen_name', array($this, 'GET_usersIndex'));
@@ -87,14 +87,14 @@ class Yuyat_WebPhacilitator_Application extends Sumile_Application
         ));
     }
 
-    public function GET_projectsRecipesHistory($projectAlias, $recipeInProjectId)
+    public function GET_projectsRecipesExecutions($projectAlias, $recipeInProjectId)
     {
         list($project, $recipe, $rawRecipe) = $this->loadProjectAndRecipe(
             $projectAlias,
             $recipeInProjectId
         );
 
-        return $this->render('projects/recipes/history.twig', array(
+        return $this->render('projects/recipes/executions.twig', array(
             'project'    => $project,
             'recipe'     => $recipe,
             'raw_recipe' => $rawRecipe,
