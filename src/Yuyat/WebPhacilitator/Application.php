@@ -19,22 +19,35 @@ class Yuyat_WebPhacilitator_Application extends Sumile_Application
     {
         parent::__construct();
 
-        $this->configure();
-
         $this->initialize();
     }
 
     public function initialize()
     {
-        $this->get('/', array($this, 'index'));
-    }
+        $this['dir.root']  = realpath(dirname(__FILE__) . '/../../../');
+        $this['dir.views'] = $this['dir.root'] . '/views';
 
-    public function configure()
-    {
+        // Register service providers
+        $this->register(new Yuyat_WebPhacilitator_Provider_PdoProvider, array(
+            'db.host'     => '',
+            'db.user'     => '',
+            'db.password' => '',
+            'db.database' => '',
+        ));
+        $this->register(new Yuyat_WebPhacilitator_Provider_DataMapperProvider);
+        $this->register(new Yuyat_WebPhacilitator_Provider_TwigProvider);
+
+        // Register routing
+        $this->get('/', array($this, 'index'));
     }
 
     public function index()
     {
-        echo "Hello, World!";
+        return $this->render('index.twig');
+    }
+
+    public function render($file, $variables = array())
+    {
+        $this->response->write($this['twig']->render($file, $variables));
     }
 }

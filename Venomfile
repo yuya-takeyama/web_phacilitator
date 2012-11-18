@@ -15,3 +15,6 @@ github('https://github.com/yuya-takeyama/phacilitator', array(
     'branch' => 'develop',
 ));
 github('https://github.com/vlucas/phpDataMapper');
+github('https://github.com/fabpot/Twig', array(
+    'tag' => 'v1.11.1',
+));
