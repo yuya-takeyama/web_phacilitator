@@ -72,4 +72,11 @@ class Yuyat_WebPhacilitator_DataMapper_RecipeMapper extends phpDataMapper_Base
         'mapper'   => 'Yuyat_WebPhacilitator_DataMapper_RecipeRoleMapper',
         'where'    => array('recipe_id' => 'entity.id')
     );
+
+    public $recipe_executions = array(
+        'type'     => 'relation',
+        'relation' => 'HasMany',
+        'mapper'   => 'Yuyat_WebPhacilitator_DataMapper_RecipeExecutionMapper',
+        'where'    => array('recipe_id' => 'entity.id')
+    );
 }

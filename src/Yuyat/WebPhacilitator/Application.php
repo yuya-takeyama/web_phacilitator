@@ -44,7 +44,8 @@ class Yuyat_WebPhacilitator_Application extends Sumile_Application
         $this->add(new Slim_Middleware_SessionCookie);
 
         // Register routing
-        $this->get('/projects/:project_alias/recipes/:recipe_in_project_id', array($this, 'GET_projectsRecipeIndex'));
+        $this->get('/projects/:project_alias/recipes/:recipe_in_project_id/history', array($this, 'GET_projectsRecipesHistory'));
+        $this->get('/projects/:project_alias/recipes/:recipe_in_project_id', array($this, 'GET_projectsRecipesIndex'));
         $this->get('/projects/:project_alias', array($this, 'GET_projectsIndex'));
         $this->get('/users/:screen_name', array($this, 'GET_usersIndex'));
         $this->get('/', array($this, 'GET_index'));
@@ -72,26 +73,28 @@ class Yuyat_WebPhacilitator_Application extends Sumile_Application
         ));
     }
 
-    public function GET_projectsRecipeIndex($projectAlias, $recipeInProjectId)
+    public function GET_projectsRecipesIndex($projectAlias, $recipeInProjectId)
     {
-        $project = $this['dm']['Project']->first(array('alias' => $projectAlias));
-
-        if (!$project) {
-            $this->halt('Project not found');
-        }
-
-        $recipe = $this['dm']['recipe']->first(array(
-            'project_id'    => $project->id,
-            'in_project_id' => $recipeInProjectId,
-        ));
-
-        if (!$project) {
-            $this->halt('Recipe not found');
-        }
-
-        $rawRecipe = $project->findRawRecipeByInProjectId($recipeInProjectId);
+        list($project, $recipe, $rawRecipe) = $this->loadProjectAndRecipe(
+            $projectAlias,
+            $recipeInProjectId
+        );
 
         return $this->render('projects/recipes/index.twig', array(
+            'project'    => $project,
+            'recipe'     => $recipe,
+            'raw_recipe' => $rawRecipe,
+        ));
+    }
+
+    public function GET_projectsRecipesHistory($projectAlias, $recipeInProjectId)
+    {
+        list($project, $recipe, $rawRecipe) = $this->loadProjectAndRecipe(
+            $projectAlias,
+            $recipeInProjectId
+        );
+
+        return $this->render('projects/recipes/history.twig', array(
             'project'    => $project,
             'recipe'     => $recipe,
             'raw_recipe' => $rawRecipe,
@@ -126,5 +129,34 @@ class Yuyat_WebPhacilitator_Application extends Sumile_Application
         ), $variables);
 
         $this->response->write($this['twig']->render($file, $variables));
+    }
+
+    private function loadProject($projectAlias)
+    {
+        $project = $this['dm']['Project']->first(array('alias' => $projectAlias));
+
+        if (!$project) {
+            $this->halt('Project not found');
+        }
+
+        return $project;
+    }
+
+    private function loadProjectAndRecipe($projectAlias, $recipeInProjectId)
+    {
+        $project = $this->loadProject($projectAlias);
+
+        $recipe = $this['dm']['recipe']->first(array(
+            'project_id'    => $project->id,
+            'in_project_id' => $recipeInProjectId,
+        ));
+
+        if (!$recipe) {
+            $this->halt('Recipe not found');
+        }
+
+        $rawRecipe = $project->findRawRecipeByInProjectId($recipeInProjectId);
+
+        return array($project, $recipe, $rawRecipe);
     }
 }
