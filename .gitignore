@@ -1,0 +1,6 @@
+*.swp
+/.bundle
+/.venom
+/Gemfile.lock
+/vendor
+/venom.php
