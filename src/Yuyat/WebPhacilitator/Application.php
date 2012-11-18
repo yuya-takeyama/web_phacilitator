@@ -63,11 +63,7 @@ class Yuyat_WebPhacilitator_Application extends Sumile_Application
 
     public function GET_projectsIndex($projectAlias)
     {
-        $project = $this['dm']['Project']->first(array('alias' => $projectAlias));
-
-        if (!$project) {
-            $this->halt('Project not found');
-        }
+        $project = $this->loadProject($projectAlias);
 
         return $this->render('projects/index.twig', array(
             'project' => $project,
