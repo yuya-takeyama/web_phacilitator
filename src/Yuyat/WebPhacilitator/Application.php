@@ -63,8 +63,35 @@ class Yuyat_WebPhacilitator_Application extends Sumile_Application
     {
         $project = $this['dm']['Project']->first(array('alias' => $projectAlias));
 
+        if (!$project) {
+            $this->halt('Project not found');
+        }
+
         return $this->render('projects/index.twig', array(
             'project' => $project,
+        ));
+    }
+
+    public function GET_projectsRecipeIndex($projectAlias, $recipeInProjectId)
+    {
+        $project = $this['dm']['Project']->first(array('alias' => $projectAlias));
+
+        if (!$project) {
+            $this->halt('Project not found');
+        }
+
+        $recipe = $this['dm']['recipe']->first(array(
+            'project_id'    => $project->id,
+            'in_project_id' => $recipeInProjectId,
+        ));
+
+        if (!$project) {
+            $this->halt('Recipe not found');
+        }
+
+        return $this->render('projects/recipes/index.twig', array(
+            'project' => $project,
+            'recipe'  => $recipe,
         ));
     }
 
