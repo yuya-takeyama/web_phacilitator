@@ -2,4 +2,14 @@
 {% block body %}
 <h1>{{ project.name }}</h1>
 
+<h2>Recipes</h2>
+
+<ul>
+{% for recipe in project.recipes %}
+  <li><a href="/projects/{{ project.alias }}/recipes/{{ recipe.in_project_id }}">{{ recipe.name }}</a></li>
+{% else %}
+  <li><em>No recipes</em></li>
+{% endfor %}
+</ul>
+
 {% endblock %}

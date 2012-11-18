@@ -44,6 +44,7 @@ class Yuyat_WebPhacilitator_Application extends Sumile_Application
         $this->add(new Slim_Middleware_SessionCookie);
 
         // Register routing
+        $this->get('/projects/:project_alias/recipes/:recipe_in_project_id', array($this, 'GET_projectsRecipeIndex'));
         $this->get('/projects/:project_alias', array($this, 'GET_projectsIndex'));
         $this->get('/users/:screen_name', array($this, 'GET_usersIndex'));
         $this->get('/', array($this, 'GET_index'));

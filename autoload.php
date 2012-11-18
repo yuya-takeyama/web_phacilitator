@@ -9,7 +9,11 @@
  */
 require_once dirname(__FILE__) . '/vendor/SplClassLoader.php';
 
-$loader = new SplClassLoader('Yuyat', dirname(__FILE__) . '/src');
+$loader = new SplClassLoader('Yuyat_Phacilitator', dirname(__FILE__) . '/vendor/yuya-takeyama/phacilitator/src');
+$loader->setNamespaceSeparator('_');
+$loader->register();
+
+$loader = new SplClassLoader('Yuyat_WebPhacilitator', dirname(__FILE__) . '/src');
 $loader->setNamespaceSeparator('_');
 $loader->register();
 
