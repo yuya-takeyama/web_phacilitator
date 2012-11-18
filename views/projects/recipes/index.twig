@@ -12,6 +12,10 @@
     </div>
     <div class="span10">
       <h2>{{ raw_recipe.getDescription() }}</h2>
+
+      <form action="/projects/{{ project.alias }}/recipes/{{ recipe.in_project_id }}/confirm" method="post">
+        <div><input type="submit" value="Confirm" class="btn btn-primary btn-large"></div>
+      </form>
     </div>
   </div>
 </div>
